@@ -159,7 +159,8 @@ def use_item(character, item_id, item_data):
     # Remove ONE copy of the item
     character["inventory"].remove(item_id)
 
-    return f"You used {item_data['name']} and gained +{value} {stat_name}!"
+    item_name = item_data.get("name", item_id)
+    return f"You used {item_name} and gained +{value} {stat_name}!"
     # TODO: Implement item usage
     # Check if character has the item
     # Check if item type is 'consumable'

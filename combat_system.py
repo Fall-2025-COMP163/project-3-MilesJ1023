@@ -139,6 +139,8 @@ class SimpleBattle:
 
             self.player_turn()
             result = self.check_battle_end()
+            if not self.combat_active:
+                break
             if result:
                 break
 
@@ -315,24 +317,24 @@ class SimpleBattle:
         return None
         
         # TODO: Implement battle end check
-import random
-def attempt_escape(self):
+
+    def attempt_escape(self):
         """
         Try to escape from battle
-        
+    
         50% success chance
-        
+    
         Returns: True if escaped, False if failed
         """
-        #random chance to escape 0 or 1
-        success = random.radint(0,1)
-        #escape successful ends battle
+        import random
+        success = random.randint(0, 1)  # 0 = fail, 1 = success
+
         if success == 1:
             self.combat_active = False
-            return True
-        
-        #escape failed
+        return True
+    
         return False
+
 
         # TODO: Implement escape attempt
         # Use random number or simple calculation
@@ -421,6 +423,7 @@ def mage_fireball(character, enemy):
 
 def rogue_critical_strike(character, enemy):
     """Rogue special ability"""
+    import random
         # Calculate base damage (same formula as normal attack)
     base_damage = character["strength"] - (enemy["strength"] // 4)
 
