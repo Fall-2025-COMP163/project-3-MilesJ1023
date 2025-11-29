@@ -196,21 +196,21 @@ def equip_weapon(character, item_id, item_data):
     if item_data["type"] != "weapon":
         raise InvalidItemTypeError(f"{item_id} is not a weapon.")
 
-    #  If a weapon is already equipped → unequip it
+# If a weapon is already equipped → unequip it
     if "equipped_weapon" in character and character["equipped_weapon"] is not None:
         old_weapon_id = character["equipped_weapon"]
-        old_weapon_data = item_data["all_items"][old_weapon_id] if "all_items" in item_data else None
 
-        # Remove old stat bonus
-        if old_weapon_data:
-            stat_name, value = parse_item_effect(old_weapon_data["effect"])
-            apply_stat_effect(character, stat_name, -value)
+    # Remove old stat bonus using stored effect
+    if "equipped_weapon_effect" in character:
+        old_stat, old_value = character["equipped_weapon_effect"]
+        apply_stat_effect(character, old_stat, -old_value)
 
-        # Add old weapon back to inventory
-        if len(character["inventory"]) >= MAX_INVENTORY_SIZE:
-            raise InventoryFullError("No space to unequip old weapon.")
+    # Add the old weapon back to inventory
+    if len(character["inventory"]) >= MAX_INVENTORY_SIZE:
+        raise InventoryFullError("No space to unequip old weapon.")
+        
+    character["inventory"].append(old_weapon_id)
 
-        character["inventory"].append(old_weapon_id)
 
     #  Parse new weapon effect
     stat_name, value = parse_item_effect(item_data["effect"])
@@ -224,7 +224,7 @@ def equip_weapon(character, item_id, item_data):
     #  Remove weapon from inventory
     character["inventory"].remove(item_id)
 
-    return f"You equipped {item_data['name']} (+{value} {stat_name})."
+    return f"You equipped {item_id} (+{value} {stat_name})."
     # TODO: Implement weapon equipping
     # Check item exists and is type 'weapon'
     # Handle unequipping current weapon if exists

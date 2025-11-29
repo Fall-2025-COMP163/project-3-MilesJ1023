@@ -166,8 +166,13 @@ def load_character(character_name, save_directory="data/save_games"):
     #Parse each line into key/value pairs
     try:
         for line in lines:
+            line = line.strip()
+
+            if line == "":
+                continue
+
             if ": " not in line:
-                raise InvalidSaveDataError("Bad formatting in save file")
+                raise InvalidSaveDataError("Save file line missing ':' separator")
 
             key, value = line.strip().split(": ", 1)
             key = key.lower()
