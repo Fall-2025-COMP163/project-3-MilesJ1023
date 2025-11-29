@@ -1,151 +1,150 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/wnCpjX4n)
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=21830313&assignment_repo_type=AssignmentRepo)
-# COMP 163: Project 3 - Quest Chronicles
+README – Quest Chronicles (COMP 163 Project 3) Miles Johnson
 
-**AI Usage: Free Use (with explanation requirement)**
+Quest Chronicles is a modular, text-based RPG designed to demonstrate Python skills related to modules, exceptions, file handling, and structured program design.
+The project is split across multiple files so each system of the game is clearly separated and easier to test.
 
-## Overview
-
-Build a complete modular RPG adventure game demonstrating mastery of **exceptions and modules**.
-
-## Getting Started
-
-### Step 1: Accept Assignment
-1. Click the assignment link provided in Blackboard
-2. Accept the assignment - this creates your personal repository
-3. Clone your repository to your local machine:
-```bash
-git clone [your-personal-repo-url]
-cd [repository-name]
-```
-
-### Step 2: Understand the Project Structure
-
-Your repository contains:
-
-```
+Project Structure
 quest_chronicles/
-├── main.py                     # Game launcher (COMPLETE THIS)
-├── character_manager.py        # Character creation/management (COMPLETE THIS)
-├── inventory_system.py         # Item and equipment management (COMPLETE THIS)
-├── quest_handler.py            # Quest system (COMPLETE THIS)
-├── combat_system.py            # Battle mechanics (COMPLETE THIS)
-├── game_data.py                # Data loading and validation (COMPLETE THIS)
-├── custom_exceptions.py        # Exception definitions (PROVIDED)
-├── data/
-│   ├── quests.txt             # Quest definitions (PROVIDED)
-│   ├── items.txt              # Item database (PROVIDED)
-│   └── save_games/            # Player save files (created automatically)
-├── tests/
-│   ├── test_module_structure.py       # Module organization tests
-│   ├── test_exception_handling.py     # Exception handling tests
-│   └── test_game_integration.py       # Integration tests
-└── README.md                   # This file
-```
+│
+├── main.py                 # Main menu and overall game flow
+├── character_manager.py    # Character creation, saving, loading, leveling, stats
+├── inventory_system.py     # Inventory logic, equipment, item usage, shop
+├── quest_handler.py        # Quest acceptance, completion, prerequisite logic
+├── combat_system.py        # Turn-based combat, abilities, enemies
+├── game_data.py            # Loading and validating quests/items from files
+├── custom_exceptions.py    # Custom-defined exceptions used throughout
+│
+└── data/
+    ├── quests.txt
+    ├── items.txt
+    └── save_games/
 
-### Step 3: Development Workflow
 
-```bash
-# Work on one module at a time
-# Test your code frequently
+Each module handles one focused part of the game.
+This makes the code cleaner and prevents one file from becoming unmanageably large.
 
-# Commit and push to see test results
-git add .
-git commit -m "Implement character_manager module"
-git push origin main
+Gameplay Summary
+Character Creation
 
-# Check GitHub for test results (green checkmarks = passed!, red xs = at least 1 failed test case. Click the checkmark or x and then "Details" to see what test cases passed/failed)
-```
+Players choose a name and one of the required classes (Warrior, Mage, Rogue, Cleric).
+Base stats differ by class, and characters begin at level 1.
 
-## Core Requirements (60 Points)
+Exploration and Combat
 
-### Critical Constraint
-You may **only** use concepts covered through the **Exceptions and Modules** chapters. 
+The explore option generates a random enemy based on the player’s level.
+Combat is turn-based, and each class has its own special ability.
 
-### 🎨 Creativity and Customization
+Quests
 
-This project encourages creativity! Here's what you can customize:
+Players can view available quests, accept them if they meet the requirements, and complete them for rewards.
+The system also handles prerequisite chaining (a quest may require another quest to be finished first).
 
-**✅ FULLY CUSTOMIZABLE:**
-- **Character stats** - Adjust health, strength, magic for balance
-- **Enemy stats** - Make enemies easier or harder
-- **Special abilities** - Design unique abilities for each class
-- **Additional enemies** - Add your own enemy types beyond the required three
-- **Game mechanics** - Add status effects, combos, critical hits, etc.
-- **Quest rewards** - Adjust XP and gold amounts
-- **Item effects** - Create unique items with creative effects
+Inventory System
 
-**⚠️ REQUIRED (for testing):**
-- **4 Character classes:** Warrior, Mage, Rogue, Cleric (names must match exactly)
-- **3 Enemy types:** "goblin", "orc", "dragon" (must exist, stats flexible)
-- **All module functions** - Must have the specified function signatures
-- **Exception handling** - Must raise appropriate exceptions
+The player can pick up items, equip weapons and armor, use consumables, and buy or sell items in shops.
+All item effects follow a consistent stat:value format.
 
-**💡 CREATIVITY TIPS:**
-1. Start with required features working
-2. Add creative elements incrementally
-3. Test after each addition
-4. Be ready to explain your design choices in the interview
-5. Bonus interview points for thoughtful, balanced customization!
+Saving and Loading
 
-**Example Creative Additions:**
-- Vampire enemy that heals when attacking
-- Warrior "Last Stand" ability that activates when health is low
-- Poison status effect that deals damage over time
-- Critical hit system based on character stats
-- Rare "legendary" weapons with special effects
+Character data is saved as a text file inside data/save_games.
+The game can be fully exited and resumed later.
 
-### Module 1: custom_exceptions.py (PROVIDED - 0 points to implement)
+Module Overview
+1. game_data.py
 
-**This module is provided complete.** It defines all custom exceptions you'll use throughout the project.
+Loads item and quest definitions from text files and validates formatting.
+Also creates default files if they don’t exist.
 
-### Module 2: game_data.py (10 points)
+2. character_manager.py
 
-### Module 3: character_manager.py (15 points)
+Handles character creation, stat updates, saving/loading, leveling, and death/revival.
 
-### Module 4: inventory_system.py (10 points)
+3. inventory_system.py
 
-### Module 5: quest_handler.py (10 points)
+Manages inventory capacity, item usage, equipment, stat effects, and the in-game shop.
 
-### Module 6: combat_system.py (10 points)
+4. quest_handler.py
 
-### Module 7: main.py (5 points)
+Handles quest acceptance rules, quest completion, prerequisite checking, and progress statistics.
 
-## Automated Testing & Validation (60 Points)
+5. combat_system.py
 
-## Interview Component (40 Points)
+Handles enemy creation, turn sequence, damage calculation, escaping, and class abilities.
 
-**Creativity Bonus** (up to 5 extra points on interview):
-- Added 2+ custom enemy types beyond required three
-- Designed unique and balanced special abilities
-- Implemented creative game mechanics (status effects, advanced combat, etc.)
-- Thoughtful stat balancing with clear reasoning
+6. main.py
 
-**Note:** Creativity is encouraged, but functionality comes first! A working game with required features scores higher than a broken game with lots of extras.
+Provides all menus, the main game loop, and connects every system together.
 
-### Update README.md
+Exception Strategy
 
-Document your project with:
+The project defines a set of custom exceptions to keep error handling clear and consistent.
+Examples include:
 
-1. **Module Architecture:** Explain your module organization
-2. **Exception Strategy:** Describe when/why you raise specific exceptions
-3. **Design Choices:** Justify major decisions
-4. **AI Usage:** Detail what AI assistance you used
-5. **How to Play:** Instructions for running the game
+MissingDataFileError
 
-### What to Submit:
+InvalidDataFormatError
 
-1. **GitHub Repository:** Your completed multi-module project
-2. **Interview:** Complete 10-minute explanation session
-3. **README:** Updated documentation
+CharacterNotFoundError
 
-## Protected Files Warning
+InventoryFullError
 
-⚠️ **IMPORTANT: Test Integrity**
+ItemNotFoundError
 
-Test files are provided for your learning but are protected. Modifying test files constitutes academic dishonesty and will result in:
+QuestNotFoundError
 
-- Automatic zero on the project
-- Academic integrity investigation
+InsufficientLevelError
 
-You can view tests to understand requirements, but any modifications will be automatically detected.
+CharacterDeadError
+
+AbilityOnCooldownError
+
+Each module raises specific exceptions when something goes wrong, which makes debugging easier and satisfies project requirements.
+
+Running the Game
+
+From the project directory, run:
+
+python main.py
+
+
+The game will load necessary data, show the main menu, and allow the player to start a new game or load an existing one.
+
+Testing
+
+The project includes automated integration tests that verify:
+
+Character creation and saving
+
+Leveling
+
+Inventory and equipment
+
+Combat
+
+Quest acceptance and prerequisites
+
+Data validation
+
+Game workflow
+
+All modules were written so that these tests pass successfully.
+
+AI Usage Statement
+
+I used AI (ChatGPT) as a learning assistant during parts of this project.
+It helped me:
+
+Understand how to structure the modules cleanly
+
+Clarify certain programming concepts like parsing, exception flow, and modular design
+
+Work through errors related to equipment handling and save-file parsing
+
+Get explanations and guidance when debugging my own code
+
+Understand how to read and satisfy the provided test cases
+
+All final logic, decisions, and code implementation were written by me.
+AI was used for explanation and support, not for generating a full program.
