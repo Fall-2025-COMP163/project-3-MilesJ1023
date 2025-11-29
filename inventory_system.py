@@ -188,40 +188,41 @@ def equip_weapon(character, item_id, item_data):
         ItemNotFoundError if item not in inventory
         InvalidItemTypeError if item type is not 'weapon'
     """
-        #  Must have the item
+    # Must have item
     if item_id not in character["inventory"]:
         raise ItemNotFoundError(f"{item_id} not found in inventory.")
 
-    #  Must be a weapon
+    # Must be a weapon
     if item_data["type"] != "weapon":
         raise InvalidItemTypeError(f"{item_id} is not a weapon.")
 
-# If a weapon is already equipped → unequip it
+    # If a weapon is already equipped → unequip it
     if "equipped_weapon" in character and character["equipped_weapon"] is not None:
+        
         old_weapon_id = character["equipped_weapon"]
 
-    # Remove old stat bonus using stored effect
-    if "equipped_weapon_effect" in character:
-        old_stat, old_value = character["equipped_weapon_effect"]
-        apply_stat_effect(character, old_stat, -old_value)
+        # Remove old weapon stat bonus
+        if "equipped_weapon_effect" in character:
+            old_stat, old_value = character["equipped_weapon_effect"]
+            apply_stat_effect(character, old_stat, -old_value)
 
-    # Add the old weapon back to inventory
-    if len(character["inventory"]) >= MAX_INVENTORY_SIZE:
-        raise InventoryFullError("No space to unequip old weapon.")
-        
-    character["inventory"].append(old_weapon_id)
+        # Add old weapon back to inventory
+        if len(character["inventory"]) >= MAX_INVENTORY_SIZE:
+            raise InventoryFullError("No space to unequip old weapon.")
 
+        character["inventory"].append(old_weapon_id)
 
-    #  Parse new weapon effect
+    # Parse new weapon effect
     stat_name, value = parse_item_effect(item_data["effect"])
 
-    #  Apply stat boost
+    # Apply effect
     apply_stat_effect(character, stat_name, value)
 
-    #  Save new weapon as equipped
+    # Store new weapon
     character["equipped_weapon"] = item_id
+    character["equipped_weapon_effect"] = (stat_name, value)
 
-    #  Remove weapon from inventory
+    # Remove from inventory
     character["inventory"].remove(item_id)
 
     return f"You equipped {item_id} (+{value} {stat_name})."

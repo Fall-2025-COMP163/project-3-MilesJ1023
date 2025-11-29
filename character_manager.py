@@ -171,13 +171,19 @@ def load_character(character_name, save_directory="data/save_games"):
             if line == "":
                 continue
 
-            if ": " not in line:
+            if ":" not in line:
                 raise InvalidSaveDataError("Save file line missing ':' separator")
 
-            key, value = line.strip().split(": ", 1)
-            key = key.lower()
+# Allow "KEY:" or "KEY: value"
+            if ": " in line:
+                key, value = line.split(": ", 1)
+            else:
+                key = line.replace(":", "").strip()
+                value = ""
+
 
             #Convert empty values to empty lists later
+            key = key.lower()
             character[key] = value.strip()
 
         #Convert numeric fields back to ints
